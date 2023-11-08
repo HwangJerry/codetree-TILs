@@ -42,7 +42,7 @@ public class Main {
             for (int i = 1; i < n; i++) {
                 dp[i][0] = Math.min(dp[i - 1][0], arr[i][0]);
             }
-    
+
             for (int i = 1; i < n; i++) {
                 for (int j = 1; j < n; j++) {
                     if (i == n - 1 && j == n - 1) {
@@ -52,9 +52,10 @@ public class Main {
                 }
             }
             dp[n - 1][n - 1] = Math.max(dp[n - 2][n - 1], dp[n - 1][n - 2]);
+            dp[n - 1][n - 1] = Math.min(dp[n - 1][n - 1], arr[n - 1][n - 1]);
             System.out.println(dp[n-1][n-1]);
-            
-        } 
+
+        }
 
 
     }
