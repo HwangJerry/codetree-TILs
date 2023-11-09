@@ -4,15 +4,15 @@
 23년 11월 08일 목표(50px)까지 50px 남았습니다.
 
 ![0xp](https://img.shields.io/badge/EXP-0xp-%235cb85c.svg?for-the-badge)
-![2일째](https://img.shields.io/badge/연속학습-2일째-%23E34F26.svg?for-the-badge)
+![1일째](https://img.shields.io/badge/연속학습-1일째-%23E34F26.svg?for-the-badge)
 
 |총 문제수|획득 경험치|연속 학습|
 |---:|---:|---|
-1|0xp|2일째🔥|
+1|0xp|1일째🔥|
 
 |교재|이름|난이도|상태|최근 제출 코드|
 |---|---|:---:|:---:|---|
-|[Intermediate Low / DP I / 격자 안에서 한 칸씩 전진하는 DP](https://www.codetree.ai/missions?missionId=2)|[[연습]정수 사각형 최솟값의 최대](https://www.codetree.ai/missions/2/problems/maximin-path-in-square)|![쉬움][easy]|![Failed][failed]|[링크](https://github.com/HwangBaco/codetree-TILs/blob/main/231108/%EC%A0%95%EC%88%98%20%EC%82%AC%EA%B0%81%ED%98%95%20%EC%B5%9C%EC%86%9F%EA%B0%92%EC%9D%98%20%EC%B5%9C%EB%8C%80/maximin-path-in-square.java)|
+|[Intermediate Low / DP I / 격자 안에서 한 칸씩 전진하는 DP](https://www.codetree.ai/missions?missionId=2)|[[연습]정수 사각형 최솟값의 최대](https://www.codetree.ai/missions/2/problems/maximin-path-in-square)|![쉬움][easy]|![Passed][passed]|[링크](https://github.com/HwangBaco/codetree-TILs/blob/main/231108/%EC%A0%95%EC%88%98%20%EC%82%AC%EA%B0%81%ED%98%95%20%EC%B5%9C%EC%86%9F%EA%B0%92%EC%9D%98%20%EC%B5%9C%EB%8C%80/maximin-path-in-square.java)|
 
 
 * 획득 경험치: 해설을 보지 않고 푼 문제에 한해 최초 1회 경험치를 획득하실 수 있습니다.
