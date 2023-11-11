@@ -21,7 +21,7 @@ public class Main {
             for (int j = 0; j < i; j++) {
                 if (dp[j] == Integer.MIN_VALUE) {
                     dp[j] = 1;
-                    continue;
+                    // continue;
                 }
                 if (arr[i] > arr[j]) {
                     dp[i] = Math.max(dp[i], dp[j] + 1);
