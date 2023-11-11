@@ -19,10 +19,6 @@ public class Main {
         init();
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (dp[j] == Integer.MIN_VALUE) {
-                    dp[j] = 1;
-                    // continue;
-                }
                 if (arr[i] > arr[j]) {
                     dp[i] = Math.max(dp[i], dp[j] + 1);
                     pq.add(-dp[i]);
@@ -47,7 +43,7 @@ public class Main {
         }
         dp[0] = 1;
         for (int i = 1; i < n; i++) {
-            dp[i] = Integer.MIN_VALUE;
+            dp[i] = 1;
         }
         pq.add(-1);
     }
