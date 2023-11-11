@@ -17,16 +17,19 @@ public class Main {
         * 중요한 것은, 숫자가 연속될 필요는 없다는 것
         * */
         init();
-
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j < i; j++) {
-                if (arr[i] > arr[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                    pq.add(-dp[i]);
+        if (n == 1) {
+            System.out.println(1);
+        } else {
+            for (int i = 1; i < n; i++) {
+                for (int j = 0; j < i; j++) {
+                    if (arr[i] > arr[j]) {
+                        dp[i] = Math.max(dp[i], dp[j] + 1);
+                        pq.add(-dp[i]);
+                    }
                 }
             }
+            System.out.println(-pq.poll());
         }
-        System.out.println(-pq.poll());
 
 
     }
