@@ -29,11 +29,10 @@ public class Main {
             }
         }
         for (int i = 1; i < n; i++) {
-            if (dp[i] != 0) {
-                ans = Math.max(dp[i], ans);
-            } else {
+            if (dp[i] == 0) {
                 break;
             }
+            ans = Math.max(dp[i], ans);
         }
         System.out.println(ans);
     }
