@@ -27,13 +27,15 @@ public class Main {
 
         // init
         dp[0][0] = 1;
+        pq.add(-1);
+        int ans = 0;
+
         for (int i = 0; i < n; i++) {
             dp[i][0] = 1;
             dp[0][i] = 1;
         }
 
         // tabulation
-        int ans = 0;
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < m; j++) {
                 for (int k = 0; k < i; k++) {
