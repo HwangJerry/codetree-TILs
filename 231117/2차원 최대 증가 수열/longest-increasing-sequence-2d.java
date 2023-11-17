@@ -50,8 +50,8 @@ public class Main {
         // tabulation
         for (int i = 2; i < n; i++) {
             for (int j = 2; j < m; j++) {
-                for (int k = 0; k < i; k++) {
-                    for (int l = 0; l < j; l++) {
+                for (int k = 1; k < i; k++) {
+                    for (int l = 1; l < j; l++) {
                         if (arr[i][j] > arr[k][l]) {
                             dp[i][j] = Math.max(dp[i][j], dp[k][l] + 1);
                             pq.add(-dp[i][j]);
