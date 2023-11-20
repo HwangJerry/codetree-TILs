@@ -36,21 +36,33 @@ public class Main {
             dp[0][i] = 0;
         }
 
-        // tabulation
         for (int i = 1; i < n; i++) {
-            for (int j = 1; j < m; j++) {
-                for (int k = 0; k < i; k++) {
-                    for (int l = 0; l < j; l++) {
+            if (arr[i][1] > arr[0][0]) {
+                dp[i][1] = 2;
+            }
+        }
+        for (int i = 1; i < m; i++) {
+            if (arr[1][i] > arr[0][0]) {
+                dp[1][i] = 2;
+            }
+        }
+
+        // tabulation
+        for (int i = 2; i < n; i++) {
+            for (int j = 2; j < m; j++) {
+                for (int k = 1; k < i; k++) {
+                    for (int l = 1; l < j; l++) {
+                        if(arr[i][j] > arr[k][l])
                             if (dp[k][l] == 0) {
                                 continue;
                             }
 
                             dp[i][j] = Math.max(dp[i][j], dp[k][l] + 1);
                             pq.add(-dp[i][j]);
-                        }
                     }
                 }
             }
+        }
         System.out.println(-pq.poll());
     }
 
