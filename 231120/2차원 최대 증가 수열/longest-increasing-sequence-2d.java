@@ -36,7 +36,7 @@ public class Main {
                 for (int k = 0; k < i; k++) {
                     for (int l = 0; l < j; l++) {
                         if (arr[i][j] > arr[k][l]) {
-                            if (arr[k][l] == 0) {
+                            if (dp[k][l] == 0) {
                                 continue;
                             }
 
