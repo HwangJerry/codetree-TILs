@@ -40,8 +40,8 @@ public class Main {
         // tabulation
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < m; j++) {
-                for (int k = 1; k < i; k++) {
-                    for (int l = 1; l < j; l++) {
+                for (int k = 0; k < i; k++) {
+                    for (int l = 0; l < j; l++) {
                         if (arr[i][j] > arr[k][l]) {
                             if (dp[k][l] == 0) {
                                 continue;
