@@ -61,8 +61,7 @@ public class Main {
                     }
                 }
             }
-        }
-
         System.out.println(-pq.poll());
     }
+
 }
