@@ -27,9 +27,8 @@ public class Main {
 
         // init
         dp[0][0] = 1;
-        int ans = 0;
         pq.add(-1);
-        
+
 
         // tabulation
         for (int i = 0; i < n; i++) {
@@ -37,8 +36,6 @@ public class Main {
                 for (int k = 0; k < i; k++) {
                     for (int l = 0; l < j; l++) {
                         if (arr[i][j] > arr[k][l]) {
-                            if(dp[k][l] == 0)
-                                continue;
 
                             dp[i][j] = Math.max(dp[i][j], dp[k][l] + 1);
                             pq.add(-dp[i][j]);
