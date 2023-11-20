@@ -29,12 +29,18 @@ public class Main {
         dp[0][0] = 1;
         pq.add(-1);
 
+        for (int i = 1; i < n; i++) {
+            dp[i][0] = 0;
+        }
+        for (int i = 1; i < m; i++) {
+            dp[0][i] = 0;
+        }
 
         // tabulation
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                for (int k = 0; k < i; k++) {
-                    for (int l = 0; l < j; l++) {
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                for (int k = 1; k < i; k++) {
+                    for (int l = 1; l < j; l++) {
                         if (arr[i][j] > arr[k][l]) {
 
                             dp[i][j] = Math.max(dp[i][j], dp[k][l] + 1);
