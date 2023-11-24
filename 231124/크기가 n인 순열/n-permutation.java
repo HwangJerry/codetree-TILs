@@ -21,7 +21,7 @@ public class Main {
             System.out.println();
             return;
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < n; i++) {
             if (!selected[i]) {
                 selected[i] = true;
                 li.add(i+1);
