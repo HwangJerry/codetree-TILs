@@ -11,7 +11,6 @@ public class Main {
   * 이렇게 선택한 숫자들의 최솟값의 최댓값을 구해라.
   * */
   private static int n, maxNum;
-  private static Queue<Integer> pq = new PriorityQueue<>();
   private static boolean[] isSelectedRow;
   private static boolean[] isSelectedColumn;
   private static int[][] grid;
@@ -36,18 +35,15 @@ public class Main {
     }
 
     // do backtracking
-    go();
-    
+    go(Integer.MAX_VALUE);
+
+
     System.out.println(maxNum);
   }
 
-  private static void go() {
+  private static void go(int minNum) {
     if (selectedNums.size() == n) {
-      for (Integer selectedNum : selectedNums) {
-        pq.add(selectedNum);
-      }
-      maxNum = Math.max(maxNum, pq.poll());
-      pq = new PriorityQueue<>();
+      maxNum = Math.max(maxNum, minNum);
       return;
     }
 
@@ -57,7 +53,7 @@ public class Main {
           isSelectedRow[i] = true;
           isSelectedColumn[j] = true;
           selectedNums.add(grid[i][j]);
-          go();
+          go(Math.min(minNum, grid[i][j]));
           isSelectedRow[i] = false;
           isSelectedColumn[j] = false;
           selectedNums.remove(selectedNums.size() - 1);
