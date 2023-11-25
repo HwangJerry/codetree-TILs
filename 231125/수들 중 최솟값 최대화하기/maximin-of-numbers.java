@@ -11,7 +11,6 @@ public class Main {
   * 이렇게 선택한 숫자들의 최솟값의 최댓값을 구해라.
   * */
   private static int n, maxNum;
-  private static boolean[] isSelectedRow;
   private static boolean[] isSelectedColumn;
   private static int[][] grid;
   private static List<Integer> selectedNums = new ArrayList<>();
@@ -20,7 +19,6 @@ public class Main {
     n = Integer.parseInt(br.readLine());
 
     // initialize variables
-    isSelectedRow = new boolean[n];
     isSelectedColumn = new boolean[n];
     grid = new int[n][n];
     maxNum = Integer.MIN_VALUE;
@@ -48,11 +46,9 @@ public class Main {
 
     for (int column = 0; column < n; column++) {
       if (!isSelectedColumn[column] && row < n) {
-//        isSelectedRow[row] = true;
         isSelectedColumn[column] = true;
         selectedNums.add(grid[row][column]);
         go(Math.min(minNum, grid[row][column]), ++row);
-//        isSelectedRow[row] = false;
         row--;
         isSelectedColumn[column] = false;
         selectedNums.remove(selectedNums.size() - 1);
