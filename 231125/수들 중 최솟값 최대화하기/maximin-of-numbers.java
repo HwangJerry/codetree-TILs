@@ -35,30 +35,31 @@ public class Main {
     }
 
     // do backtracking
-    go(Integer.MAX_VALUE);
+    for (int i = 0; i < n; i++) {
+      isSelectedRow[i] = true;
+      go(Integer.MAX_VALUE, 0);
+      isSelectedRow[i] = false;
+    }
 
     System.out.println(maxNum);
   }
 
-  private static void go(int minNum) {
+  private static void go(int minNum, int row) {
     if (selectedNums.size() == n) {
       maxNum = Math.max(maxNum, minNum);
       return;
     }
 
-    for (int i = 0; i < n; i++) {
-      if (!isSelectedRow[i]) {
-        for (int j = 0; j < n; j++) {
-          if (!isSelectedColumn[j]) {
-            isSelectedRow[i] = true;
-            isSelectedColumn[j] = true;
-            selectedNums.add(grid[i][j]);
-            go(Math.min(minNum, grid[i][j]));
-            isSelectedRow[i] = false;
-            isSelectedColumn[j] = false;
-            selectedNums.remove(selectedNums.size() - 1);
-          }
-        }
+    for (int column = 0; column < n; column++) {
+      if (!isSelectedColumn[column] && row < n) {
+//        isSelectedRow[row] = true;
+        isSelectedColumn[column] = true;
+        selectedNums.add(grid[row][column]);
+        go(Math.min(minNum, grid[row][column]), ++row);
+//        isSelectedRow[row] = false;
+        row--;
+        isSelectedColumn[column] = false;
+        selectedNums.remove(selectedNums.size() - 1);
       }
     }
   }
