@@ -37,7 +37,6 @@ public class Main {
     // do backtracking
     go(Integer.MAX_VALUE);
 
-
     System.out.println(maxNum);
   }
 
@@ -48,16 +47,17 @@ public class Main {
     }
 
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        if (!isSelectedRow[i] && !isSelectedColumn[j]) {
-          isSelectedRow[i] = true;
-          isSelectedColumn[j] = true;
-          selectedNums.add(grid[i][j]);
-          go(Math.min(minNum, grid[i][j]));
-          isSelectedRow[i] = false;
-          isSelectedColumn[j] = false;
-          selectedNums.remove(selectedNums.size() - 1);
-
+      if (!isSelectedRow[i]) {
+        for (int j = 0; j < n; j++) {
+          if (!isSelectedColumn[j]) {
+            isSelectedRow[i] = true;
+            isSelectedColumn[j] = true;
+            selectedNums.add(grid[i][j]);
+            go(Math.min(minNum, grid[i][j]));
+            isSelectedRow[i] = false;
+            isSelectedColumn[j] = false;
+            selectedNums.remove(selectedNums.size() - 1);
+          }
         }
       }
     }
