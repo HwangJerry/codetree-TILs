@@ -35,11 +35,7 @@ public class Main {
     }
 
     // do backtracking
-    for (int i = 0; i < n; i++) {
-      isSelectedRow[i] = true;
-      go(Integer.MAX_VALUE, 0);
-      isSelectedRow[i] = false;
-    }
+    go(Integer.MAX_VALUE, 0);
 
     System.out.println(maxNum);
   }
