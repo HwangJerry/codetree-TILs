@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -31,7 +29,7 @@ public class Main {
         *       else (다르다면) map.putIfAbsent(다음문자, 1);
         * */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String s = br.readLine().strip();
+        String s = br.readLine().trim();
         n = s.length();
 
         for (int i = 0; i < n; i++) {
