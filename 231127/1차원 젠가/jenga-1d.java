@@ -25,7 +25,7 @@ public class Main {
         for (int i = 0; i < 2; i++) {
             st = new StringTokenizer(br.readLine());
             int removeIdx = Integer.parseInt(st.nextToken()) - 1;
-            int loopCnt = Integer.parseInt(st.nextToken()) - removeIdx + 1;
+            int loopCnt = Integer.parseInt(st.nextToken()) - removeIdx;
             for (int j = 0; j < loopCnt; j++) {
                 blocks.remove(removeIdx);
             }
