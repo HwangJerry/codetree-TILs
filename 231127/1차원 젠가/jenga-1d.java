@@ -24,10 +24,10 @@ public class Main {
 
         for (int i = 0; i < 2; i++) {
             st = new StringTokenizer(br.readLine());
-            int startIdx = Integer.parseInt(st.nextToken()) - 1;
-            int endIdx = Integer.parseInt(st.nextToken()) - 1;
-            for (int j = 0; j <= (endIdx - startIdx); j++) {
-                blocks.remove(startIdx);
+            int removeIdx = Integer.parseInt(st.nextToken()) - 1;
+            int loopCnt = Integer.parseInt(st.nextToken()) - removeIdx + 1;
+            for (int j = 0; j < loopCnt; j++) {
+                blocks.remove(removeIdx);
             }
 
         }
