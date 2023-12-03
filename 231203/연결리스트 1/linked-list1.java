@@ -66,7 +66,9 @@ public class Main {
         private void insert(Node node) {
             node.prev = this.prev;
             node.next = this;
-            node.prev.next = node;
+            if (node.prev != null) {
+                node.prev.next = node;
+            }
             node.next.prev = node;
         }
 
@@ -74,7 +76,9 @@ public class Main {
             node.next = this.next;
             node.prev = this;
             node.prev.next = node;
-            node.next.prev = node;
+            if (node.next != null) {
+                node.next.prev = node;
+            }
         }
         private Node(String data) {
             this.data = data;
