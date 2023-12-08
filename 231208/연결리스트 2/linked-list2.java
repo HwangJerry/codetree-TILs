@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    private static final int LIST_SIZE = 100000;
+    private static final int LIST_SIZE = 100010;
     private static Node[] linkedList = new Node[LIST_SIZE];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
