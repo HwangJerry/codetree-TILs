@@ -29,14 +29,14 @@ public class Main {
         while(!queue.isEmpty()) {
             visited = new boolean[R+3][C];
             int[] crt = queue.poll();
-            fairyY = 0;
+            fairyY = 1;
             fairyX = crt[0];
             golemExit = crt[1];
             res = 0; // 정령이 이동한 결과
             // 내려가기
-            golemGo(fairyY, fairyX, 2);
-            // 다 내려간 뒤 정령의 y가 2이하면 map 초기화하고 continue;
-            if (fairyY <= 2) {
+            golemGo(fairyY, fairyX, 2, 0);
+            // 다 내려간 뒤 정령의 y가 4이하면 map 초기화하고 continue;
+            if (fairyY <= 3) {
                 grid = new int[R+3][C];
                 continue;
             }
@@ -53,16 +53,17 @@ public class Main {
             // 이동하기
             // 출구면 다른 골렘으로 이동 가능
             // res 최대값으로 갱신
-            // for (int z = 0; z < R+3; z++) {
-            //     for (int zz = 0; zz < C; zz++) {
-            //         System.out.print(grid[z][zz] + " ");
+            // if (queue.size() == 0) {
+            //     for (int z = 0; z < R+3; z++) {
+            //         for (int zz = 0; zz < C; zz++) {
+            //             System.out.print((grid[z][zz] == 0 ? "X" : grid[z][zz] > 10000 ? "@" : "O") + " ");
+            //         }
+            //         System.out.println();
             //     }
-            //     System.out.println();
             // }
-
-            // System.out.println(fairyY - 2 + " " + (fairyX+1));
+            //System.out.println(fairyY - 2 + " " + (fairyX+1));
             fairyGo(fairyY, fairyX);
-            // System.out.println(fairyY - 2 + " " + (fairyX+1));
+            //System.out.println(fairyY - 2 + " " + (fairyX+1));
             res -= 2;
             ans += res;
         }    
@@ -84,7 +85,10 @@ public class Main {
         }
     }
 
-    public static void golemGo(int y, int x, int dir) {
+    public static void golemGo(int y, int x, int dir, int cnt) {
+        if (cnt > 1) {
+            return;
+        }
         int ny, nx;
         if (canGolemGo(y+dy[2], x+dx[2], 2)) { // 남쪽 이동 먼저
             ny = y + dy[2];
@@ -92,32 +96,27 @@ public class Main {
             if (fairyY < ny) {
                 fairyY = ny;
                 fairyX = nx;
-                if (dir == 3) {
-                    golemExit = convertGolemExit(3);
-                } else if (dir == 1) {
-                    golemExit = convertGolemExit(1);
+                if (dir != 2) {
+                    // for (int i = 0; i < cnt; i++) {
+                        golemExit = convertGolemExit(dir);
+                    // }
                 }
             }
             visited[ny][nx] = true;
-            golemGo(ny, nx, 2);
-        } else if (canGolemGo(y + dy[3], x + dx[3], 3)) { // 서쪽
-            ny = y + dy[3];
-            nx = x + dx[3];
-            if (fairyY < ny) {
-                fairyY = ny;
-                fairyX = nx;
+            golemGo(ny, nx, 2, 0);
+        } else {
+            if (canGolemGo(y + dy[3], x + dx[3], 3)) { // 서쪽
+                ny = y + dy[3];
+                nx = x + dx[3];
+                visited[ny][nx] = true;
+                golemGo(ny, nx, 3, cnt+1);
             }
-            visited[ny][nx] = true;
-            golemGo(ny, nx, 3);
-        } else if (canGolemGo(y + dy[1], x + dx[1], 1)) {
-            ny = y + dy[1];
-            nx = x + dx[1];
-            if (fairyY < ny) {
-                fairyY = ny;
-                fairyX = nx;
+            if (canGolemGo(y + dy[1], x + dx[1], 1)) {
+                ny = y + dy[1];
+                nx = x + dx[1];
+                visited[ny][nx] = true;
+                golemGo(ny, nx, 1, cnt+1);
             }
-            visited[ny][nx] = true;
-            golemGo(ny, nx, 1);
         }
     }
 
