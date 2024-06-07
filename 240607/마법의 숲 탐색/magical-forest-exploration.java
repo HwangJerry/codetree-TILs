@@ -111,8 +111,7 @@ public class Main {
                 nx = x + dx[3];
                 visited[ny][nx] = true;
                 golemGo(ny, nx, 3, cnt+1);
-            }
-            if (canGolemGo(y + dy[1], x + dx[1], 1)) {
+            } else if (canGolemGo(y + dy[1], x + dx[1], 1)) {
                 ny = y + dy[1];
                 nx = x + dx[1];
                 visited[ny][nx] = true;
