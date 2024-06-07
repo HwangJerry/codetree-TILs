@@ -77,6 +77,7 @@ public class Main {
             if (canFairyGo(ny, nx, y, x)) {
                 if (fairyY < ny) {
                     fairyY = ny;
+                    fairyX = nx;
                     res = Math.max(res, fairyY);
                 }
                 visited[ny][nx] = true;
@@ -104,7 +105,7 @@ public class Main {
             }
             visited[ny][nx] = true;
             golemGo(ny, nx, 2, 0);
-        } else {
+        } else if (cnt == 0) {
             if (canGolemGo(y + dy[3], x + dx[3], 3)) { // 서쪽
                 ny = y + dy[3];
                 nx = x + dx[3];
@@ -136,7 +137,7 @@ public class Main {
     }
 
     public static boolean canFairyGo(int y, int x, int prevY, int prevX) {
-        return inRange(y,x,0) && grid[y][x] > 0 && (grid[y][x] % 10000 == grid[prevY][prevX] % 10000 || grid[prevY][prevX] > 10000) && !visited[y][x];
+        return inRange(y,x,0) && grid[y][x] > 0 && ((grid[y][x] % 10000 == grid[prevY][prevX] % 10000) || (grid[prevY][prevX] > 10000)) && !visited[y][x];
     }
 
     public static int convertGolemExit(int dir) {
