@@ -103,18 +103,18 @@ public class Main {
                     // }
                 }
             }
-            visited[ny][nx] = true;
+            // visited[ny][nx] = true;
             golemGo(ny, nx, 2, 0);
         } else if (cnt == 0) {
             if (canGolemGo(y + dy[3], x + dx[3], 3)) { // 서쪽
                 ny = y + dy[3];
                 nx = x + dx[3];
-                visited[ny][nx] = true;
+                // visited[ny][nx] = true;
                 golemGo(ny, nx, 3, cnt+1);
             } else if (canGolemGo(y + dy[1], x + dx[1], 1)) {
                 ny = y + dy[1];
                 nx = x + dx[1];
-                visited[ny][nx] = true;
+                // visited[ny][nx] = true;
                 golemGo(ny, nx, 1, cnt+1);
             }
         }
