@@ -9,10 +9,10 @@ import java.util.stream.*;
 -3. 이동 방향의 끝에 벽에 있다면 모든 기사는 이동 불가
 -4. 사라진 기사에게 명령을 내리면 아무 일도 일어나지 않음
 
-5. 기사 범위(H x W) 내의 함정 수 만큼 체력 피해
-6. 체력이 0이 되면 체스판에서 사라짐
-7. 명령을 받은 기사는 피해를 입지 않고, 기사들은 일단 밀린 이후에 데미지를 입음
-8. 밀렸더라도 함정이 없다면 피해를 입지 않음
+-5. 기사 범위(H x W) 내의 함정 수 만큼 체력 피해
+-6. 체력이 0이 되면 체스판에서 사라짐
+-7. 명령을 받은 기사는 피해를 입지 않고, 기사들은 일단 밀린 이후에 데미지를 입음
+-8. 밀렸더라도 함정이 없다면 피해를 입지 않음
 
 정답
 => 명령이 모두 끝난 후, '생존'한 기사들이 총 받은 대미지의 합
@@ -98,7 +98,7 @@ public class Main {
             }
 
             // 먼저 queue를 순회하면서 이동 방향에 벽 끝이 있는지 체크
-            if (!canMove()) {
+            if (!canMove(dir)) {
                 continue;
             }
             
@@ -124,7 +124,7 @@ public class Main {
                 knightMap[j] = tempMap[j].clone();
             }
             for (int j = 1; j <= N; j++) {
-                if (!selected.contains(j)) {
+                if (!selected.contains(j) && !isDead(j)) {
                     for (int k = 0; k < knights[j][H]; k++) {
                         for (int l = 0; l < knights[j][W]; l++) {
                             knightMap[knights[j][R]+k][knights[j][C]+l] = j;
@@ -163,7 +163,7 @@ public class Main {
                     }
                 }
             }
-            // // test
+            // test
             // for (int j = 1; j <= L; j++) {
             //     for (int k = 1; k <= L; k++) {
             //         System.out.print(knightMap[j][k]+ " ");
@@ -176,9 +176,9 @@ public class Main {
 
     }
 
-    static boolean canMove() {
+    static boolean canMove(int dir) {
         for (int[] p : moveQueue) {
-            if (!inRange(p[0]+dy[p[2]], p[1]+dx[p[2]])) {
+            if (!inRange(p[0]+dy[dir], p[1]+dx[dir])) {
                 return false;
             }
         }
@@ -221,7 +221,7 @@ public class Main {
     }
 
     static boolean inRange(int y, int x) {
-        return y >= 1 && y <= L && x >= 0 && x <= L;
+        return y >= 1 && y <= L && x >= 1 && x <= L;
     }
 
     static boolean isDead(int idx) {
