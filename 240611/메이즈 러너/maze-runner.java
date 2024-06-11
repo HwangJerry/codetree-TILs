@@ -84,7 +84,7 @@ public class Main {
                                 } else {
                                     temp[ny][nx] += map[y][x];
                                 }
-                                temp[y][x] = 0;
+                                temp[y][x] -= map[y][x];
                                 continue top;
                             }
                         }
@@ -138,8 +138,8 @@ public class Main {
         // 크기 설정
         for (int r = 2; r <= N; r++) {
             // 좌상단 좌표 설정
-            for (int y = 1; y < N; y++) {
-                for (int x = 1; x < N; x++) {
+            for (int y = 1; y <= N; y++) {
+                for (int x = 1; x <= N; x++) {
                     boolean isE = false;
                     boolean isP = false;
                     // 좌표내 출구랑 참가자 한명이라도 있는지 탐색
@@ -158,6 +158,7 @@ public class Main {
                     if (isE && isP) {
                         return new int[]{y, x, r};
                     }
+
                 }
             }
         }
