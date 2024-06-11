@@ -108,9 +108,6 @@ public class Main {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
                     if (map[i][j][UNDER_ATTACK] == 1) {
-                        if (map[i][j][ATK] == 0) {
-                            aliveCnt--;
-                        }
                         map[i][j][UNDER_ATTACK] = 0;
                     } else if (map[i][j][ATK] != 0) {
                         map[i][j][ATK]++;
@@ -118,6 +115,14 @@ public class Main {
                     // System.out.print(map[i][j][ATK] + " ");
                 }
                 // System.out.println();
+            }
+            aliveCnt = 0;
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j< M; j++) {
+                    if (map[i][j][ATK] > 0) {
+                        aliveCnt++;
+                    }
+                }
             }
         }
 
@@ -184,12 +189,12 @@ public class Main {
         }
 
         int halfAtk = atk / 2;
-        System.out.println("---- bfs ---");
+        // System.out.println("---- bfs ---");
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = convertY(now[0]);
             int x = convertX(now[1]);
-            System.out.println(y + " " + x);
+            // System.out.println(y + " " + x);
             if (startY != y || startX != x) {
                 temp[y][x][ATK] = temp[y][x][ATK] - halfAtk > 0 ? temp[y][x][ATK] - halfAtk : 0;
                 temp[y][x][UNDER_ATTACK] = 1;
@@ -201,7 +206,7 @@ public class Main {
                     if (ny == targetY && nx == targetX) {
                         // 경로에 데미지를 줘야함...
  
-                        System.out.println("--- true end ---");
+                        // System.out.println("--- true end ---");
                         return true;
                     }
                     visited[ny][nx] = true;
@@ -209,7 +214,7 @@ public class Main {
                 }
             }
         }
-        System.out.println("--- false end ---");
+        // System.out.println("--- false end ---");
 
         return false;
     }
