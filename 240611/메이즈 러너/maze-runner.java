@@ -52,18 +52,12 @@ public class Main {
 
         for (int T = 0; T < K; T++) {
             // 모든 사람들이 탈출한 상태라면 연산 종료
-            int cnt = 0;
             for (int i = 1; i <= N; i++) {
                 for (int j = 1; j <= N; j++) {
-                    if (map[i][j] < 0) {
-                        cnt += Math.abs(map[i][j]); // 사람수 체크
-                    } else if (map[i][j] == E) {
+                    if (map[i][j] == E) {
                         exit = new int[]{i, j}; // 출구 등록
                     }
                 }
-            }
-            if (cnt == 0) { // 사람 없으면 즉시종료
-                break;
             }
 
             // 1. 참가자 이동
@@ -84,7 +78,9 @@ public class Main {
                                 // System.out.println(ny + " " + nx); // test
                                 ans += Math.abs(map[y][x]); // 있는 사람 수만큼 이동 거리 채집 
                                 // 출구면
-                                if (map[ny][nx] != E) { // 탈출이 아니면 -> 이동
+                                if (map[ny][nx] == E) { // 탈출이 아니면 -> 이동
+                                    M -= Math.abs(map[y][x]);
+                                } else {
                                     temp[ny][nx] = map[y][x];
                                 }
                                 temp[y][x] = 0;
@@ -96,6 +92,10 @@ public class Main {
             }
 
             map = temp;
+
+            if (M == 0) { // 사람 없으면 즉시종료
+                break;
+            }
 
             // test
             // for (int i = 1; i <= N; i++) {
@@ -144,9 +144,12 @@ public class Main {
                     // 좌표내 출구랑 참가자 한명이라도 있는지 탐색
                     for (int i = y; i < y + r; i++) {
                         for (int j = x; j < x + r; j++) {
-                            if (inRange(i, j) && map[i][j] == E) {
+                            if (!inRange(i, j)) {
+                                continue;
+                            }
+                            if (map[i][j] == E) {
                                 isE = true;
-                            } else if (inRange(i, j) && map[i][j] < 0) {
+                            } else if (map[i][j] < 0) {
                                 isP = true;
                             }
                         }
@@ -176,7 +179,7 @@ public class Main {
                 if (map[y+i][x+j] == E) { // 출구가 아니면서
                     continue;
                 } else if (map[y+i][x+j] > 0) { // 사람도 아니고, 평지도 아니라면
-                    temp[y+j][x+r-1-i] -= 1; // 벽이므로, -1 수행
+                    temp[y+j][x+r-1-i]--; // 벽이므로, -1 수행
                 }
             }   
         }
