@@ -51,12 +51,12 @@ public class Main {
             // -> 공격자 관련 여부 갱신
             map[attacker[0]][attacker[1]][UNDER_ATTACK] = 1;
 
-            // --> 공격자 공력 증가
-            map[attacker[0]][attacker[1]][ATK] += N + M;
-
             // --> 공격대상 선정
             int[] target = getTarget();
             // System.out.println("target : " + target[0] + " " + target[1]); // test
+
+            // --> 공격자 공력 증가
+            map[attacker[0]][attacker[1]][ATK] += N + M;
 
             // 2. 공격자의 공격
             // --> if 레이저 가능: 레이저 공격
@@ -169,6 +169,7 @@ public class Main {
                 shootLazerDfs(ny, nx, startY, startX, targetY, targetX, temp, atk, visited, depth+1);
                 temp[ny][nx][ATK] = save;
                 temp[ny][nx][UNDER_ATTACK] = 0;
+                visited[ny][nx] = false;
             }
         }
     }
@@ -257,7 +258,7 @@ public class Main {
     static int[] getAttacker() {
         int minAtk = INF;
         int maxRnd = 0;
-        int[] attacker = new int[]{0, 0};
+        int[] attacker = new int[]{-1, -1};
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 if (map[i][j][ATK] == 0) {
@@ -278,7 +279,7 @@ public class Main {
                             minAtk = map[i][j][ATK];
                             maxRnd = map[i][j][ROUND];
                         } else if (attacker[0] + attacker[1] == i + j) {
-                            if (attacker[0] < i) { // 열 값이 가장 큰 포탑
+                            if (attacker[1] < j) { // 열 값이 가장 큰 포탑
                                 attacker = new int[]{i, j};
                                 minAtk = map[i][j][ATK];
                                 maxRnd = map[i][j][ROUND];
@@ -315,7 +316,7 @@ public class Main {
                             maxAtk = map[i][j][ATK];
                             minRnd = map[i][j][ROUND];
                         } else if (target[0] + target[1] == i + j) {
-                            if (target[0] > i) { // 열 값이 가장 작은 포탑
+                            if (target[1] > j) { // 열 값이 가장 작은 포탑
                                 target = new int[]{i, j};
                                 maxAtk = map[i][j][ATK];
                                 minRnd = map[i][j][ROUND];
