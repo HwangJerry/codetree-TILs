@@ -34,7 +34,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int r = Integer.parseInt(st.nextToken());
             int c = Integer.parseInt(st.nextToken());
-            map[r][c] = P; // 사람 - 사람은 구별할 필요가 없으므로 몇명이 중복됐는지만 체크하면 됨.
+            map[r][c] += P; // 사람 - 사람은 구별할 필요가 없으므로 몇명이 중복됐는지만 체크하면 됨.
         }
         st = new StringTokenizer(br.readLine());
         int r = Integer.parseInt(st.nextToken());
@@ -78,10 +78,11 @@ public class Main {
                                 // System.out.println(ny + " " + nx); // test
                                 ans += Math.abs(map[y][x]); // 있는 사람 수만큼 이동 거리 채집 
                                 // 출구면
-                                if (map[ny][nx] == E) { // 탈출이 아니면 -> 이동
-                                    M -= Math.abs(map[y][x]);
+                                if (map[ny][nx] == E) {
+                                    M += map[y][x];
+                                // 탈출이 아니면 -> 이동
                                 } else {
-                                    temp[ny][nx] = map[y][x];
+                                    temp[ny][nx] += map[y][x];
                                 }
                                 temp[y][x] = 0;
                                 continue top;
