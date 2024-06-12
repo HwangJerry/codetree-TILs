@@ -132,7 +132,7 @@ public class Main {
                         } else {
                             // 상대가 이긴 경우
                             // -- 점수계산부터
-                            vsPerson[SCORE] += vsPerson[STR] - person[STR];
+                            vsPerson[SCORE] += (vsPerson[STR] + vsPerson[GUN]) - (person[STR] + person[GUN]);
                             // -- 진사람은 총을 내려놓고
                             map[ny][nx].add(person[GUN]);
                             person[GUN] = 0;
