@@ -11,6 +11,9 @@ public class Main {
     static int[][] targets;
     static int[] dy = {-1, 0, 0, 1};
     static int[] dx = {0, -1, 1, 0};
+    static int cnt;
+    static int alive;
+    static List<int[]> bases = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         // 여기에 코드를 작성해주세요.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,11 +23,15 @@ public class Main {
         map = new int[N+1][N+1];
         targets = new int[M+1][2];
         arrived = new boolean[M+1];
+        cnt = M;
 
         for (int i = 1; i <= N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 1; j <= N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
+                if (map[i][j] == B) {
+                    bases.add(new int[]{i,j});
+                }
             }
         }
 
@@ -42,7 +49,8 @@ public class Main {
         Queue<Integer> arrivedTargets = new ArrayDeque<>();
 
         int T = 0;
-        while(true) {
+        // 종료 조건 : 모두 편의점에 갔을 것
+        while(cnt > 0) {
             T++;
 
             // // test
@@ -55,7 +63,7 @@ public class Main {
             // System.out.println("-");
 
             // 격자에 사람이 있는 경우 1,2번 수행
-            if (!fin(T-1)) { // T번째 사람은 이제 입장하니까 제외
+            if (alive > 0) {
                 // 1. 모든 사람이 각자 원하는 편의점을 향해 1칸 움직임. (최단거리-상좌우하 우선순위)
                 // @TODO
                 for (int[] person : people) {
@@ -91,6 +99,8 @@ public class Main {
                     // ---> 따라서 arrivedTargets에 추가해두고 나중에 한번에 처리
                     if (ny == targetY && nx == targetX) { // 도착했으면 일단 도착목록에 리스트업
                         arrivedTargets.add(tdx);
+                        alive--;
+                        cnt--;
                     }
                 }
 
@@ -109,11 +119,7 @@ public class Main {
 
                 // --> 해당 베이스 벽 처리 (이거 모든 사람들이 이동한 뒤에 처리해야 하는데, 이미 이동할 애들은 1,2번에서 이동했으니 OK)
                 map[base[0]][base[1]] += 10000; // 1만 이상 되는 지역은 벽으로 인식하도록
-            }
-
-            // 종료 조건 : 모두 편의점에 갔을 것
-            if (fin(M)) {
-                break;
+                alive++;
             }
         }
 
@@ -155,16 +161,19 @@ public class Main {
         int ny = (int) 1e9;
         int nx = (int) 1e9;
         // 좌표를 중심으로 가장 가까운 베이스캠프를 찾아야 함
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                if (map[i][j] == B) {
-                    if (dist(ny,nx,y,x) > dist(i, j, y, x)) {
-                        ny = i;
-                        nx = j;
-                    }
-                }
+        for (int[] base : bases) {
+            int i = base[0];
+            int j = base[1];
+            if (map[i][j] > 10000) {
+                continue;
+            }
+            if (dist(ny,nx,y,x) > dist(i, j, y, x)) {
+                ny = i;
+                nx = j;
             }
         }
+
+
 
         return new int[]{ny, nx};
     }
