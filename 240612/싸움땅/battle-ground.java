@@ -214,6 +214,7 @@ public class Main {
                                 battleMap[vy][vx] = i;
                                 person[Y] = vy;
                                 person[X] = vx;
+                                person[D] = vd;
                                 break;
                             }
                         }
