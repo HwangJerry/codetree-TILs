@@ -165,14 +165,15 @@ public class Main {
                         for (int pd : map[i][j]) {
                             int npy = i + dy[pd];
                             int npx = j + dx[pd];
-                            while(true) {
-                                if (inRange(npy,npx) && (chaser[Y] != npy || chaser[X] != npx)) {
+                            if (inRange(npy,npx) && (chaser[Y] != npy || chaser[X] != npx)) {
+                                temp[npy][npx].add(pd);
+                                break;
+                            } else {
+                                pd = (pd + 2) % 4;
+                                npy = i + dy[pd];
+                                npx = j + dx[pd];
+                                if (inRange(npy, npx) && (chaser[Y] != npy || chaser[X] != npx)) {
                                     temp[npy][npx].add(pd);
-                                    break;
-                                } else {
-                                    pd = (pd + 2) % 4;
-                                    npy = i + dy[pd];
-                                    npx = j + dx[pd];
                                 }
                             }
                         }                        
