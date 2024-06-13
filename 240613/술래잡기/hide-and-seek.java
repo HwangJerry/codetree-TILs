@@ -110,12 +110,6 @@ public class Main {
             chasingQueue.pollLast();
         }
 
-        // // test
-        // while(!chasingQueue.isEmpty()) {
-        //     int[] now = chasingQueue.poll();
-        //     System.out.println(now[0] + " " + now[1] + " " + (now[2] == UP ? "UP" : now[2] == DOWN ? "DOWN" : now[2] == RIGHT ? "RIGHT" : "LEFT"));
-        // }
-
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= N; j++) {
                 map[i][j] = new ArrayList<>();
@@ -143,13 +137,6 @@ public class Main {
             tree[y][x] = true;
         }
 
-        // for (int i = 1; i <= N; i++) {
-        //     for (int j = 1; j <= N; j++) {
-        //         System.out.print(map[i][j].peek() + " ");
-        //     }
-        //     System.out.println();
-        // }
-
         // business logic below ...
         for (int T = 1; T <= K; T++) {
             temp = new ArrayList[N+1][N+1];
@@ -168,14 +155,17 @@ public class Main {
                             if (inRange(npy,npx)) {
                                 if (chaser[Y] != npy || chaser[X] != npx) {
                                     temp[npy][npx].add(pd);
+                                } else {
+                                    temp[i][j].add(pd);
                                 }
-                                break;
                             } else {
                                 pd = (pd + 2) % 4;
                                 npy = i + dy[pd];
                                 npx = j + dx[pd];
                                 if ((chaser[Y] != npy || chaser[X] != npx)) {
                                     temp[npy][npx].add(pd);
+                                } else {
+                                    temp[i][j].add(pd);
                                 }
                             }
                         }                        
@@ -186,17 +176,6 @@ public class Main {
             }
             map = temp;
 
-            // System.out.println("after people move " + T + " ---- ");
-            // for (int i = 1; i <= N; i++) {
-            //     for (int j = 1; j <= N; j++) {
-            //         System.out.print(map[i][j].size() + " ");
-            //     }
-            //     System.out.println();
-            // }
-            // System.out.println("-");
-            // System.out.println("chaser : " + chaser[0] + " " + chaser[1] + " " + chaser[2]);
-            // System.out.println("-");
-        
             /* 술래가 움직이고 */
             int y = chaser[Y];
             int x = chaser[X];
@@ -218,22 +197,9 @@ public class Main {
                 int ex = chaser[X]+dx[chaser[D]]*i;
                 if (inRange(ey, ex) && !map[ey][ex].isEmpty() && !tree[ey][ex]) {
                     ans += map[ey][ex].size()*T;
-                    M -= map[ey][ex].size();
                     map[ey][ex].clear();
                 }
             }
-
-            // System.out.println("after chaser move " + T + " ---- ");
-            // for (int i = 1; i <= N; i++) {
-            //     for (int j = 1; j <= N; j++) {
-            //         System.out.print(map[i][j].size() + " ");
-            //     }
-            //     System.out.println();
-            // }
-            // System.out.println("-");
-            // System.out.println("chaser : " + chaser[0] + " " + chaser[1] + " " + chaser[2]);
-            // System.out.println("-");
-
         }
 
 
