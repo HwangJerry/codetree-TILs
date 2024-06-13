@@ -234,9 +234,6 @@ public class Main {
             // System.out.println("chaser : " + chaser[0] + " " + chaser[1] + " " + chaser[2]);
             // System.out.println("-");
 
-            if (M == 0) {
-                break;
-            }
         }
 
 
