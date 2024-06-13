@@ -166,7 +166,7 @@ public class Main {
                             int npy = i + dy[pd];
                             int npx = j + dx[pd];
                             while(true) {
-                                if (inRange(npy,npx) && chaser[Y] != npy || chaser[X] != npx) {
+                                if (inRange(npy,npx) && (chaser[Y] != npy || chaser[X] != npx)) {
                                     temp[npy][npx].add(pd);
                                     break;
                                 } else {
