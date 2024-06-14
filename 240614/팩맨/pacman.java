@@ -127,11 +127,14 @@ public class Main {
     }
 
     static void movePac() {
-        maxCnt = 0;
+        maxCnt = -1;
+        // System.out.println(R+ " " + C);
         movePacmanDfs(R, C, 0, 0, new boolean[5][5], new int[3][2]);
         for (int i = 0 ; i < 3; i++) {
             int y = removeArr[i][0];
             int x = removeArr[i][1];
+            // System.out.println("y x : " + y + " " + x);
+            // System.out.println(map[y][x]);
             if (map[y][x].size() > 0) {
                 deads[y][x] = 3;
                 map[y][x].clear();
@@ -146,18 +149,25 @@ public class Main {
                 R = y;
                 C = x;
                 for (int i = 0; i < 3; i++) {
+                    // System.out.println("arr 0 " + arr[i][0]);
+                    // System.out.println("arr 0 " + arr[i][1]);
                     removeArr[i] = arr[i].clone();
+                    // System.out.println("r 0 " + removeArr[i][0]);
+                    // System.out.println("r 1 " +removeArr[i][1]);
                 }
             }
             return;
         }
-        
+
         for (int i = 0; i < 8; i = i + 2) {
             int ny = y + dy[i];
             int nx = x + dx[i];
+            // System.out.println("ny nx : " + ny + " " + nx);
             if (inRange(ny, nx)) {
                 arr[depth][0] = ny;
                 arr[depth][1] = nx;
+                // System.out.println("arr depth 0 " + arr[depth][0]);
+                // System.out.println("arr depth 1 " + arr[depth][1]);
                 if (visited[ny][nx]) {
                     movePacmanDfs(ny, nx, depth+1, cnt, visited, arr);
                 } else {
@@ -169,96 +179,96 @@ public class Main {
         }
     }
 
-    static void movePacman() {
-        // 총 3칸 이동, 각 이동마다 상좌하우 우선순위 선택
-        // 가장 몬스터를 많이 먹을 수 있는 방향으로 움직임
-        // 팩맨의 자리에 있는 몬스터는 먹지 않고, 알을 먹지 않음(이동과정의 몬스터만 먹음)
-        // 몬스터를 먹으면 시체를 남김 (시체는 총 2턴동안만 유지됨)
-        // --> deads[i][j] = 3 (현재턴 + 다음 2턴)
-        int maxCnt = -1; // 최대로 먹은 수
-        int maxR = R;
-        int maxC = C;
-        int mfy = -1;
-        int mfx = -1;
-        int msy = -1;
-        int msx = -1;
-        int mty = -1;
-        int mtx = -1;
-        Queue<int[]> q = new ArrayDeque(); // {y, x, depth, cnt, tracking} -- 어느 번째 단계고, 얼마나 먹었는지
+    // static void movePacman() {
+    //     // 총 3칸 이동, 각 이동마다 상좌하우 우선순위 선택
+    //     // 가장 몬스터를 많이 먹을 수 있는 방향으로 움직임
+    //     // 팩맨의 자리에 있는 몬스터는 먹지 않고, 알을 먹지 않음(이동과정의 몬스터만 먹음)
+    //     // 몬스터를 먹으면 시체를 남김 (시체는 총 2턴동안만 유지됨)
+    //     // --> deads[i][j] = 3 (현재턴 + 다음 2턴)
+    //     int maxCnt = -1; // 최대로 먹은 수
+    //     int maxR = R;
+    //     int maxC = C;
+    //     int mfy = -1;
+    //     int mfx = -1;
+    //     int msy = -1;
+    //     int msx = -1;
+    //     int mty = -1;
+    //     int mtx = -1;
+    //     Queue<int[]> q = new ArrayDeque(); // {y, x, depth, cnt, tracking} -- 어느 번째 단계고, 얼마나 먹었는지
         
-        q.add(new int[]{R, C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-        while(!q.isEmpty()) {
-            int[] now = q.poll();
-            int y = now[0];
-            int x = now[1];
-            int depth = now[2];
-            int cnt = now[3];
-            int fy = now[4];
-            int fx = now[5];
-            int sy = now[6];
-            int sx = now[7];
-            int ty = now[8];
-            int tx = now[9];
-            int v1 = now[10];
-            int v2 = now[11];
-            int v3 = now[12];
-            int v4 = now[13];
-            if (depth == 3) {
-                if (maxCnt < cnt) {
-                    maxCnt = cnt;
-                    maxR = y;
-                    maxC = x;
-                    mfy = fy;
-                    mfx = fx;
-                    msy = sy;
-                    msx = sx;
-                    mty = ty;
-                    mtx = tx;
-                }
-            } else {
-                for (int j = 0; j < 8; j = j + 2) { // 상좌하우
-                    int ny = y + dy[j];
-                    int nx = x + dx[j];
-                    if (inRange(ny, nx)) {
-                        if (depth+1 == 1) {
-                            fy = ny;
-                            fx = nx;
-                        } else if (depth+1 == 2) {
-                            sy = ny;
-                            sx = nx;
-                        } else if (depth+1 == 3) {
-                            ty = ny;
-                            tx = nx;
-                        }
-                        boolean visited = canVisit(ny, nx, v1, v2, v3,v4);
-                        int[] v = visit(ny, nx, v1, v2, v3, v4);
-                        if (visited) {
-                            q.add(new int[]{ny, nx, depth+1, cnt, fy, fx, sy, sx, ty, tx, v[0], v[1], v[2], v[3]});
-                        } else {
-                            q.add(new int[]{ny, nx, depth+1, cnt + map[ny][nx].size(), fy, fx, sy,sx, ty, tx, v[0], v[1], v[2], v[3]});
-                        }
-                    }
-                }
-            }
-        }
+    //     q.add(new int[]{R, C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    //     while(!q.isEmpty()) {
+    //         int[] now = q.poll();
+    //         int y = now[0];
+    //         int x = now[1];
+    //         int depth = now[2];
+    //         int cnt = now[3];
+    //         int fy = now[4];
+    //         int fx = now[5];
+    //         int sy = now[6];
+    //         int sx = now[7];
+    //         int ty = now[8];
+    //         int tx = now[9];
+    //         int v1 = now[10];
+    //         int v2 = now[11];
+    //         int v3 = now[12];
+    //         int v4 = now[13];
+    //         if (depth == 3) {
+    //             if (maxCnt < cnt) {
+    //                 maxCnt = cnt;
+    //                 maxR = y;
+    //                 maxC = x;
+    //                 mfy = fy;
+    //                 mfx = fx;
+    //                 msy = sy;
+    //                 msx = sx;
+    //                 mty = ty;
+    //                 mtx = tx;
+    //             }
+    //         } else {
+    //             for (int j = 0; j < 8; j = j + 2) { // 상좌하우
+    //                 int ny = y + dy[j];
+    //                 int nx = x + dx[j];
+    //                 if (inRange(ny, nx)) {
+    //                     if (depth+1 == 1) {
+    //                         fy = ny;
+    //                         fx = nx;
+    //                     } else if (depth+1 == 2) {
+    //                         sy = ny;
+    //                         sx = nx;
+    //                     } else if (depth+1 == 3) {
+    //                         ty = ny;
+    //                         tx = nx;
+    //                     }
+    //                     boolean visited = canVisit(ny, nx, v1, v2, v3,v4);
+    //                     int[] v = visit(ny, nx, v1, v2, v3, v4);
+    //                     if (visited) {
+    //                         q.add(new int[]{ny, nx, depth+1, cnt, fy, fx, sy, sx, ty, tx, v[0], v[1], v[2], v[3]});
+    //                     } else {
+    //                         q.add(new int[]{ny, nx, depth+1, cnt + map[ny][nx].size(), fy, fx, sy,sx, ty, tx, v[0], v[1], v[2], v[3]});
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        R = maxR;
-        C = maxC;
+    //     R = maxR;
+    //     C = maxC;
         
-        int aliveCnt = 3;
-        if (!map[mfy][mfx].isEmpty()) {
-            map[mfy][mfx].clear();
-            deads[mfy][mfx] = aliveCnt;
-        }
-        if (!map[msy][msx].isEmpty()) {
-            map[msy][msx].clear();
-            deads[msy][msx] = aliveCnt;
-        }
-        if (!map[mty][mtx].isEmpty()) {
-            map[mty][mtx].clear();
-            deads[mty][mtx] = aliveCnt;
-        }
-    }
+    //     int aliveCnt = 3;
+    //     if (!map[mfy][mfx].isEmpty()) {
+    //         map[mfy][mfx].clear();
+    //         deads[mfy][mfx] = aliveCnt;
+    //     }
+    //     if (!map[msy][msx].isEmpty()) {
+    //         map[msy][msx].clear();
+    //         deads[msy][msx] = aliveCnt;
+    //     }
+    //     if (!map[mty][mtx].isEmpty()) {
+    //         map[mty][mtx].clear();
+    //         deads[mty][mtx] = aliveCnt;
+    //     }
+    // }
 
     static void deleteDeadmons() {
         // 시체는 총 2턴동안만 유지된다.
