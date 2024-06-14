@@ -36,7 +36,6 @@ public class Main {
         }
 
         for (int t = 1; t <= T; t++) {
-            // print();
             simulation();
         }
 
@@ -50,14 +49,23 @@ public class Main {
     }
     
     static void simulation() {
+        // System.out.println("start");
+        // print();
+
         // 1. 몬스터 복제 시도
         copyMonsters();
 
         // 2. 몬스터 이동
         moveMonsters();
 
+        // System.out.println("---after move monsters---");
+        // print();
+
         // 3. 팩맨 이동
         movePacman();
+
+        // System.out.println("--- after pacman moves0--");
+        // print();
 
         // 4. 시체 소멸
         deleteDeadmons();
@@ -95,13 +103,19 @@ public class Main {
         for (int y = 1; y <= 4; y++) {
             for (int x = 1; x <= 4; x++) {
                 for (int d : map[y][x]) {
+                    boolean isMoved = false;
                     for (int i = 0; i < 8; i++) {
                         int ny = y + dy[(d+i) % 8];
                         int nx = x + dx[(d+i) % 8];
                         if (inRange(ny, nx) && (ny != R || nx != C) && deads[ny][nx] == 0) {
                             temp[ny][nx].add((d+i) % 8);
+                            isMoved = true;
                             break;
                         }
+                        // 움직이지 않은애들도 추가해줘야함
+                    }
+                    if (!isMoved) {
+                        temp[y][x].add(d);
                     }
                 }
             }
