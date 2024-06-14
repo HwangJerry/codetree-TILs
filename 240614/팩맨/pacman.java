@@ -9,7 +9,8 @@ public class Main {
     static Queue<int[]> news = new ArrayDeque<>(); // r, c, d
     static int[] dy = {-1, -1, 0, 1, 1, 1, 0, -1};
     static int[] dx = {0, -1, -1, -1, 0, 1, 1, 1};
-
+    static int maxCnt;
+    static int[][] removeArr = new int[3][2];
     public static void main(String[] args) throws IOException {
         // 여기에 코드를 작성해주세요.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -50,6 +51,7 @@ public class Main {
     
     static void simulation() {
         // System.out.println("start");
+        // System.out.println(R + " " + C);
         // print();
 
         // 1. 몬스터 복제 시도
@@ -62,7 +64,8 @@ public class Main {
         // print();
 
         // 3. 팩맨 이동
-        movePacman();
+        movePac();
+        // movePacman();
 
         // System.out.println("--- after pacman moves0--");
         // print();
@@ -115,14 +118,55 @@ public class Main {
                         // 움직이지 않은애들도 추가해줘야함
                     }
                     if (!isMoved) {
-                        temp[y][x].add(d);
+                        temp[y][x].add(d); // ??? 방향을 8방향 다 하면 그대로 굳는건지 아니면 원래 방향으로 냅두는건지 미지수
                     }
                 }
             }
         }
-
         map = temp;
+    }
 
+    static void movePac() {
+        maxCnt = 0;
+        movePacmanDfs(R, C, 0, 0, new boolean[5][5], new int[3][2]);
+        for (int i = 0 ; i < 3; i++) {
+            int y = removeArr[i][0];
+            int x = removeArr[i][1];
+            if (map[y][x].size() > 0) {
+                deads[y][x] = 3;
+                map[y][x].clear();
+            }
+        }
+    }
+
+    static void movePacmanDfs(int y, int x, int depth, int cnt, boolean[][] visited, int[][] arr) {
+        if (depth == 3) {
+            if (cnt > maxCnt) {
+                maxCnt = cnt;
+                R = y;
+                C = x;
+                for (int i = 0; i < 3; i++) {
+                    removeArr[i] = arr[i].clone();
+                }
+            }
+            return;
+        }
+        
+        for (int i = 0; i < 8; i = i + 2) {
+            int ny = y + dy[i];
+            int nx = x + dx[i];
+            if (inRange(ny, nx)) {
+                arr[depth][0] = ny;
+                arr[depth][1] = nx;
+                if (visited[ny][nx]) {
+                    movePacmanDfs(ny, nx, depth+1, cnt, visited, arr);
+                } else {
+                    visited[ny][nx] = true;
+                    movePacmanDfs(ny, nx, depth+1, cnt+map[ny][nx].size(), visited, arr);
+                    visited[ny][nx] = false;
+                }
+            }
+        }
     }
 
     static void movePacman() {
@@ -175,7 +219,7 @@ public class Main {
                 for (int j = 0; j < 8; j = j + 2) { // 상좌하우
                     int ny = y + dy[j];
                     int nx = x + dx[j];
-                    if (inRange(ny, nx) && canVisit(ny, nx, v1, v2, v3, v4)) {
+                    if (inRange(ny, nx)) {
                         if (depth+1 == 1) {
                             fy = ny;
                             fx = nx;
@@ -186,8 +230,13 @@ public class Main {
                             ty = ny;
                             tx = nx;
                         }
+                        boolean visited = canVisit(ny, nx, v1, v2, v3,v4);
                         int[] v = visit(ny, nx, v1, v2, v3, v4);
-                        q.add(new int[]{ny, nx, depth+1, cnt + map[ny][nx].size(), fy, fx, sy,sx, ty, tx, v[0], v[1], v[2], v[3]});
+                        if (visited) {
+                            q.add(new int[]{ny, nx, depth+1, cnt, fy, fx, sy, sx, ty, tx, v[0], v[1], v[2], v[3]});
+                        } else {
+                            q.add(new int[]{ny, nx, depth+1, cnt + map[ny][nx].size(), fy, fx, sy,sx, ty, tx, v[0], v[1], v[2], v[3]});
+                        }
                     }
                 }
             }
