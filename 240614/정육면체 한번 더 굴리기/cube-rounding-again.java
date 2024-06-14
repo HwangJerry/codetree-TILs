@@ -92,7 +92,7 @@ public class Main {
     static void rotateDice() {
         // 바닥이랑 비교해서 D 변경할지 선택
         if (map[Y][X] > bottom) {
-            D = (D - 1) < 0 ? D + 5 : D - 1;
+            D = (D - 1) < 0 ? D + 3 : D - 1;
         } else if (map[Y][X] < bottom) {
             D = (D + 1) % 4;
         }
