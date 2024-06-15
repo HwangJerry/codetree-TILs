@@ -28,6 +28,8 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         map = new int[N][N];
+        visited = new boolean[N][N];
+        rVisited = new boolean[N][N];
         for (int i = 0 ; i < N; i ++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
@@ -72,7 +74,9 @@ public class Main {
         minRed = (int) 1e9; // 2
         maxY = 0; // 3
         minX = (int) 1e9; // 4
-        visited = new boolean[N][N];
+        for (int z = 0 ; z < N; z++) {
+            Arrays.fill(visited[z], false);
+        }
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (!visited[i][j] && map[i][j] > 0) {
@@ -123,7 +127,9 @@ public class Main {
         q.clear();
         q.add(new int[]{i, j});
         visited[i][j] = true;
-        rVisited = new boolean[N][N];
+        for (int z = 0 ; z < N; z++) {
+            Arrays.fill(rVisited[z], false);
+        }
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
@@ -150,11 +156,15 @@ public class Main {
     static void bomb(int i, int j) {
         int[][] temp = copyMap();
         q.clear();
-        visited = new boolean[N][N];
+        for (int z = 0 ; z < N; z++) {
+            Arrays.fill(visited[z], false);
+        }
         q.add(new int[]{i, j});
         visited[i][j] = true;
         temp[i][j] = -2;
-        rVisited = new boolean[N][N];
+        for (int z = 0 ; z < N; z++) {
+            Arrays.fill(rVisited[z], false);
+        }
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
