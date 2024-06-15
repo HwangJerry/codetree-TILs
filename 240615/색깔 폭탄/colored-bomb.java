@@ -10,6 +10,15 @@ public class Main {
     static int[] dx = {0, 0, 1, -1};
     static boolean[][] visited;
     static Queue<int[]> q = new ArrayDeque<>();
+    static int maxSize = 0; // 1
+    static int minRed = (int) 1e9; // 2
+    static int maxY = 0; // 3
+    static int minX = (int) 1e9; // 4
+    
+    static int resY;
+    static int resX;
+    static int resRed;
+    static int resSize;
 
     public static void main(String[] args) throws IOException {
         // 여기에 코드를 작성해주세요.
@@ -58,39 +67,39 @@ public class Main {
     static int[] findGroup() {
         // 각 종류별로 bfs 탐색하면서 폭탄 그룹을 탐색
         // 탐색간에 우선순위 큐에 넣고, 각 빨간폭탄 개수 갱신하면서 진행
-        int maxSize = 0; // 1
-        int minRed = (int) 1e9; // 2
-        int maxY = 0; // 3
-        int minX = (int) 1e9; // 4
+        maxSize = 0; // 1
+        minRed = (int) 1e9; // 2
+        maxY = 0; // 3
+        minX = (int) 1e9; // 4
         visited = new boolean[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (!visited[i][j] && map[i][j] != -2 && map[i][j] != -1 && map[i][j] != 0) {
-                    int[] res = bfs(i, j, visited);
-                    if (maxSize < res[3]) {
-                        maxSize = res[3];
-                        minRed = res[2];
-                        maxY = res[0];
-                        minX = res[1];
+                if (!visited[i][j] && map[i][j] > 0) {
+                    bfs(i, j, visited);
+                    if (maxSize < resSize) {
+                        maxSize = resSize;
+                        minRed = resRed;
+                        maxY = resY;
+                        minX = resX;
                         // System.out.println(maxY + " " + minX);
-                    } else if (maxSize == res[3]) {
-                        if (minRed > res[2]) {
-                            maxSize = res[3];
-                            minRed = res[2];
-                            maxY = res[0];
-                            minX = res[1];
-                        } else if (minRed == res[2]) {
-                            if (maxY < res[0]) {
-                                maxSize = res[3];
-                                minRed = res[2];
-                                maxY = res[0];
-                                minX = res[1];
-                            } else if (maxY == res[0]) {
-                                if (minX > res[1]) {
-                                    maxSize = res[3];
-                                    minRed = res[2];
-                                    maxY = res[0];
-                                    minX = res[1];
+                    } else if (maxSize == resSize) {
+                        if (minRed > resRed) {
+                            maxSize = resSize;
+                            minRed = resRed;
+                            maxY = resY;
+                            minX = resX;
+                        } else if (minRed == resRed) {
+                            if (maxY < resY) {
+                                maxSize = resSize;
+                                minRed = resRed;
+                                maxY = resY;
+                                minX = resX;
+                            } else if (maxY == resY) {
+                                if (minX > resX) {
+                                    maxSize = resSize;
+                                    minRed = resRed;
+                                    maxY = resY;
+                                    minX = resX;
                                 }
                             }
                         }
@@ -105,11 +114,11 @@ public class Main {
         return new int[]{0, (int) 1e9};
     }
     
-    static int[] bfs(int i, int j, boolean[][] visited) {
-        int maxY = i;
-        int minX = j;
-        int red = map[i][j] == 0 ? 1 : 0;
-        int size = 1;
+    static void bfs(int i, int j, boolean[][] visited) {
+        resY = i;
+        resX = j;
+        resRed = 0;
+        resSize = 1;
         q.clear();
         q.add(new int[]{i, j});
         visited[i][j] = true;
@@ -122,17 +131,16 @@ public class Main {
                 int nx = x + dx[k];
                 if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0)) {
                     visited[ny][nx] = true;
-                    size++;
+                    resSize++;
                     if (map[ny][nx] != 0) {
-                        maxY = Math.max(maxY, ny);
-                        minX = Math.min(minX, nx);
+                        resY = Math.max(resY, ny);
+                        resX = Math.min(resX, nx);
                     }
-                    red += map[ny][nx] == 0 ? 1 : 0;
+                    resRed += map[ny][nx] == 0 ? 1 : 0;
                     q.add(new int[]{ny, nx});
                 }
             }
         }
-        return new int[]{maxY, minX, red, size};
     }
 
     static void bomb(int i, int j) {
@@ -208,5 +216,11 @@ public class Main {
 
     static boolean inRange(int y, int x) {
         return y >= 0 && y < N && x >= 0 && x < N;
+    }
+
+    static void resetVisited() {
+        for (int i = 0; i < N; i++) {
+            Arrays.fill(visited[i], false);
+        }
     }
 }
