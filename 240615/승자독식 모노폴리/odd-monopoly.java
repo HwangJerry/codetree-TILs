@@ -132,24 +132,12 @@ public class Main {
                     int nx = x + dx[pMoves[i][d][j]];
                     // 내가 독점한 땅으로 이동
                     if (inRange(ny, nx) && map[ny][nx][0] == i) {
-                        if (pMap[ny][nx] > 0 && pMap[ny][nx] < i) {
-                            player[0] = -1;
-                            player[1] = -1;
-                            player[2] = -1;
-                            cnt--;
-                            continue top;
-                        // 만약 상대가 더 서열이 낮은 경우
-                        } else if (pMap[ny][nx] > 0 && pMap[ny][nx] > i) {
-                            int o = pMap[ny][nx];
-                            int[] opposite = players.get(o);
-                            opposite[0] = -1;
-                            opposite[1] = -1;
-                            opposite[2] = -1;
-                            cnt--;
-                        }
                         player[0] = ny;
                         player[1] = nx;
                         player[2] = pMoves[i][d][j];
+                        // 독점 계약
+                        tempMap[ny][nx][0] = i;
+                        tempMap[ny][nx][1] = K;
                         break;
                     }
                 }
