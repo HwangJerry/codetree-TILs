@@ -130,6 +130,7 @@ public class Main {
         for (int z = 0 ; z < N; z++) {
             Arrays.fill(rVisited[z], false);
         }
+        int std = map[i][j];
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
@@ -137,7 +138,7 @@ public class Main {
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0 && !rVisited[ny][nx])) {
+                if (inRange(ny, nx) && ((map[ny][nx] == std && !visited[ny][nx]) || map[ny][nx] == 0 && !rVisited[ny][nx])) {
                     visited[ny][nx] = true;
                     resSize++;
                     if (map[ny][nx] != 0) {
@@ -177,7 +178,7 @@ public class Main {
                     q.add(new int[]{ny, nx});
                     if (map[ny][nx] > 0) {
                         visited[ny][nx] = true;
-                    } else {
+                    } else if (map[ny][nx] == 0){
                         rVisited[ny][nx] = true;
                     }
                 }
