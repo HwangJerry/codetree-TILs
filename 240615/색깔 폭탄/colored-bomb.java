@@ -68,15 +68,14 @@ public class Main {
     }
 
     static int[] findGroup() {
+        // print();
         // 각 종류별로 bfs 탐색하면서 폭탄 그룹을 탐색
         // 탐색간에 우선순위 큐에 넣고, 각 빨간폭탄 개수 갱신하면서 진행
         maxSize = 0; // 1
         minRed = (int) 1e9; // 2
         maxY = 0; // 3
         minX = (int) 1e9; // 4
-        for (int z = 0 ; z < N; z++) {
-            Arrays.fill(visited[z], false);
-        }
+        Arrays.stream(visited).forEach(z -> Arrays.fill(z, false));
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (!visited[i][j] && map[i][j] > 0) {
@@ -127,9 +126,7 @@ public class Main {
         q.clear();
         q.add(new int[]{i, j});
         visited[i][j] = true;
-        for (int z = 0 ; z < N; z++) {
-            Arrays.fill(rVisited[z], false);
-        }
+        Arrays.stream(rVisited).forEach(z -> Arrays.fill(z, false));
         int std = map[i][j];
         while(!q.isEmpty()) {
             int[] now = q.poll();
@@ -138,12 +135,16 @@ public class Main {
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && ((map[ny][nx] == std && !visited[ny][nx]) || map[ny][nx] == 0 && !rVisited[ny][nx])) {
-                    visited[ny][nx] = true;
+                if (inRange(ny, nx) && !visited[ny][nx] && !rVisited[ny][nx] && (map[ny][nx] == std || map[ny][nx] == 0)) {
                     resSize++;
                     if (map[ny][nx] != 0) {
-                        resY = Math.max(resY, ny);
-                        resX = Math.min(resX, nx);
+                        if (resY < ny) {
+                            resY = ny;
+                            resX = nx;
+                        } else if (resY == ny && resX > nx) {
+                            resX = nx;
+                        }
+                        visited[ny][nx] = true;
                     } else {
                         resRed++;
                         rVisited[ny][nx] = true;
@@ -156,38 +157,27 @@ public class Main {
 
     static void bomb(int i, int j) {
         q.clear();
-        for (int z = 0 ; z < N; z++) {
-            Arrays.fill(visited[z], false);
-        }
         q.add(new int[]{i, j});
-        visited[i][j] = true;
-        for (int z = 0 ; z < N; z++) {
-            Arrays.fill(rVisited[z], false);
-        }
         int std = map[i][j];
         map[i][j] = -2;
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
             int x = now[1];
-            map[y][x] = -2;
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && ((map[ny][nx] == std && !visited[ny][nx]) || (map[ny][nx] == 0 && !rVisited[ny][nx]))) {
+                if (inRange(ny, nx) && (map[ny][nx] == std || map[ny][nx] == 0)) {
                     q.add(new int[]{ny, nx});
-                    if (map[ny][nx] > 0) {
-                        visited[ny][nx] = true;
-                    } else if (map[ny][nx] == 0){
-                        rVisited[ny][nx] = true;
-                    }
+                    map[ny][nx] = -2;
                 }
             }
         }
+        // print();
     }
 
     static void rotate() {
-        int[][] temp = copyMap();
+        int[][] temp = new int[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 temp[N-1-j][i] = map[i][j];
@@ -215,18 +205,18 @@ public class Main {
         }
     }
 
-    static int[][] copyMap() {
-        int[][] temp = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            temp[i] = map[i].clone();
-        }
-        return temp;
-    }
+    // static int[][] copyMap() {
+    //     int[][] temp = new int[N][N];
+    //     for (int i = 0; i < N; i++) {
+    //         temp[i] = map[i].clone();
+    //     }
+    //     return temp;
+    // }
 
     static void print() {
         for (int i = 0; i < N; i ++) {
             for (int j = 0; j < N; j ++) {
-                System.out.print((map[i][j] == -2 ? "B" : map[i][j]) + " ");
+                System.out.print((map[i][j] == -2 ? "." : map[i][j] == -1 ? "B" : map[i][j]));
             }
             System.out.println();
         }
