@@ -120,7 +120,7 @@ public class Main {
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && (map[y][x] == map[ny][nx] || map[ny][nx] == 0) && (!visited[ny][nx] || map[ny][nx] == 0)) {
+                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0)) {
                     visited[ny][nx] = true;
                     size++;
                     if (map[ny][nx] != 0) {
@@ -150,7 +150,7 @@ public class Main {
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && (map[ny][nx] == map[y][x] || map[ny][nx] == 0) && (!visited[ny][nx] || map[ny][nx] == 0)) {
+                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0)) {
                     q.add(new int[]{ny, nx});
                     visited[ny][nx] = true;
                 }
