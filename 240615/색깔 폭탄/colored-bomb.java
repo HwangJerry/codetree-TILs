@@ -8,11 +8,14 @@ public class Main {
     static int ans;
     static int[] dy = {1, -1, 0, 0};
     static int[] dx = {0, 0, 1, -1};
+    static boolean[][] visited;
+    static Queue<int[]> q = new ArrayDeque<>();
+    static List<int[]> bombList = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
         // 여기에 코드를 작성해주세요.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         map = new int[N][N];
@@ -60,7 +63,7 @@ public class Main {
         int minRed = (int) 1e9; // 2
         int maxY = 0; // 3
         int minX = (int) 1e9; // 4
-        boolean[][] visited = new boolean[N][N];
+        visited = new boolean[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (!visited[i][j] && map[i][j] != -2 && map[i][j] != -1 && map[i][j] != 0) {
@@ -108,7 +111,7 @@ public class Main {
         int minX = j;
         int red = map[i][j] == 0 ? 1 : 0;
         int size = 1;
-        Queue<int[]> q = new ArrayDeque<>();
+        q.clear();
         q.add(new int[]{i, j});
         visited[i][j] = true;
         while(!q.isEmpty()) {
@@ -134,11 +137,11 @@ public class Main {
     }
 
     static void bomb(int i, int j) {
-        Queue<int[]> q = new ArrayDeque<>();
-        boolean[][] visited = new boolean[N][N];
+        q.clear();
+        visited = new boolean[N][N];
         q.add(new int[]{i, j});
         visited[i][j] = true;
-        List<int[]> bombList = new ArrayList<>();
+        bombList.clear();
         bombList.add(new int[]{i, j});
         while(!q.isEmpty()) {
             int[] now = q.poll();
