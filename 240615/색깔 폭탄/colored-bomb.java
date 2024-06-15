@@ -151,7 +151,6 @@ public class Main {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
                 if (inRange(ny, nx) && (map[ny][nx] == map[y][x] || map[ny][nx] == 0) && (!visited[ny][nx] || map[ny][nx] == 0)) {
-                    bombList.add(new int[]{ny, nx});
                     q.add(new int[]{ny, nx});
                     visited[ny][nx] = true;
                 }
