@@ -9,6 +9,7 @@ public class Main {
     static int[] dy = {1, -1, 0, 0};
     static int[] dx = {0, 0, 1, -1};
     static boolean[][] visited;
+    static boolean[][] rVisited;
     static Queue<int[]> q = new ArrayDeque<>();
     static int maxSize = 0; // 1
     static int minRed = (int) 1e9; // 2
@@ -48,7 +49,7 @@ public class Main {
         // 2. 가장 행이 큰 폭탄 묶음 (기준 : 빨간색이 아니면서 행이 가장 큰 칸)
         // 3. 가장 열이 작은 폭탄 묶음
         int[] res = findGroup();
-        if (res[0] == 0 && res[1] == (int) 1e9) {
+        if (res == null) {
             return false;
         }
         // 폭발
@@ -111,7 +112,7 @@ public class Main {
             ans += (int) Math.pow(maxSize, 2);
             return new int[]{maxY, minX};
         }
-        return new int[]{0, (int) 1e9};
+        return null;
     }
     
     static void bfs(int i, int j, boolean[][] visited) {
@@ -122,6 +123,7 @@ public class Main {
         q.clear();
         q.add(new int[]{i, j});
         visited[i][j] = true;
+        rVisited = new boolean[N][N];
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
@@ -129,14 +131,16 @@ public class Main {
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0)) {
+                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0 && !rVisited[ny][nx])) {
                     visited[ny][nx] = true;
                     resSize++;
                     if (map[ny][nx] != 0) {
                         resY = Math.max(resY, ny);
                         resX = Math.min(resX, nx);
+                    } else {
+                        resRed++;
+                        rVisited[ny][nx] = true;
                     }
-                    resRed += map[ny][nx] == 0 ? 1 : 0;
                     q.add(new int[]{ny, nx});
                 }
             }
@@ -150,6 +154,7 @@ public class Main {
         q.add(new int[]{i, j});
         visited[i][j] = true;
         temp[i][j] = -2;
+        rVisited = new boolean[N][N];
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
@@ -158,9 +163,13 @@ public class Main {
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || map[ny][nx] == 0)) {
+                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || (map[ny][nx] == 0 && !rVisited[ny][nx]))) {
                     q.add(new int[]{ny, nx});
-                    visited[ny][nx] = true;
+                    if (map[ny][nx] > 0) {
+                        visited[ny][nx] = true;
+                    } else {
+                        rVisited[ny][nx] = true;
+                    }
                 }
             }
         }
