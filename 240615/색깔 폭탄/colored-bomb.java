@@ -154,26 +154,26 @@ public class Main {
     }
 
     static void bomb(int i, int j) {
-        int[][] temp = copyMap();
         q.clear();
         for (int z = 0 ; z < N; z++) {
             Arrays.fill(visited[z], false);
         }
         q.add(new int[]{i, j});
         visited[i][j] = true;
-        temp[i][j] = -2;
         for (int z = 0 ; z < N; z++) {
             Arrays.fill(rVisited[z], false);
         }
+        int std = map[i][j];
+        map[i][j] = -2;
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
             int x = now[1];
-            temp[y][x] = -2;
+            map[y][x] = -2;
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
-                if (inRange(ny, nx) && ((map[ny][nx] == map[y][x] && !visited[ny][nx]) || (map[ny][nx] == 0 && !rVisited[ny][nx]))) {
+                if (inRange(ny, nx) && ((map[ny][nx] == std && !visited[ny][nx]) || (map[ny][nx] == 0 && !rVisited[ny][nx]))) {
                     q.add(new int[]{ny, nx});
                     if (map[ny][nx] > 0) {
                         visited[ny][nx] = true;
@@ -183,7 +183,6 @@ public class Main {
                 }
             }
         }
-        map = temp;
     }
 
     static void rotate() {
