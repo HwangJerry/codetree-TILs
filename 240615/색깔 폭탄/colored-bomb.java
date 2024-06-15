@@ -10,7 +10,6 @@ public class Main {
     static int[] dx = {0, 0, 1, -1};
     static boolean[][] visited;
     static Queue<int[]> q = new ArrayDeque<>();
-    static List<int[]> bombList = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         // 여기에 코드를 작성해주세요.
@@ -137,16 +136,17 @@ public class Main {
     }
 
     static void bomb(int i, int j) {
+        int[][] temp = copyMap();
         q.clear();
         visited = new boolean[N][N];
         q.add(new int[]{i, j});
         visited[i][j] = true;
-        bombList.clear();
-        bombList.add(new int[]{i, j});
+        temp[i][j] = -2;
         while(!q.isEmpty()) {
             int[] now = q.poll();
             int y = now[0];
             int x = now[1];
+            temp[y][x] = -2;
             for (int k = 0; k < 4; k++) {
                 int ny = y + dy[k];
                 int nx = x + dx[k];
@@ -157,9 +157,7 @@ public class Main {
                 }
             }
         }
-        for (int[] p : bombList) {
-            map[p[0]][p[1]] = -2;
-        }
+        map = temp;
     }
 
     static void rotate() {
