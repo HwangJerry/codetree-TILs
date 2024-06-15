@@ -170,8 +170,8 @@ public class Main {
     }
 
     static void gravity() {
+        int[] temp = new int[N];
         for (int j = 0; j < N; j++) {
-            int[] temp = new int[N];
             Arrays.fill(temp, -2);
             int tdx = N-1;
             for (int i = N-1; i >= 0; i--) {
